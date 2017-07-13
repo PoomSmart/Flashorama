@@ -1,0 +1,10 @@
+Package: org.thebigboss.flashorama
+Name: Flashorama
+Depends: mobilesubstrate, preferenceloader, cy+model.iphone (>= 4) | cy+model.ipod (>= 5)
+Version: 1.5
+Architecture: iphoneos-arm
+Description: use Torch when Capturing Panorama!
+Author: PoomSmart
+Maintainer: PoomSmart
+Section: Tweaks
+Icon: file:///Library/PreferenceLoader/Preferences/Flashorama/Flasho@2x.png
