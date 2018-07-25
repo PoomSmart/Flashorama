@@ -1,6 +1,6 @@
 #import "../Common.h"
 
-static void fm_torch(BOOL on, CAMCaptureController *self){
+static void fm_torch(BOOL on, CAMCaptureController *self) {
     if ([self.currentDevice hasTorch]) {
         if ([self _lockCurrentDeviceForConfiguration]) {
             self.currentDevice.torchMode = on ? AVCaptureTorchModeOn : AVCaptureTorchModeOff;
@@ -11,8 +11,7 @@ static void fm_torch(BOOL on, CAMCaptureController *self){
 
 %hook CAMCaptureController
 
-- (void)stopPanoramaCapture
-{
+- (void)stopPanoramaCapture {
     if (autoOff)
         fm_torch(NO, self);
     %orig;
@@ -31,8 +30,7 @@ static void fm_torch(BOOL on, CAMCaptureController *self){
 
 %hook CAMCameraView
 
-- (NSInteger)_glyphOrientationForCameraOrientation: (NSInteger)orientation
-{
+- (NSInteger)_glyphOrientationForCameraOrientation:(NSInteger)orientation {
     return [self cameraMode] == 3 ? 1 : %orig;
 }
 
@@ -108,15 +106,13 @@ static void fm_torch(BOOL on, CAMCaptureController *self){
 }
 
 %new
-- (void)cameraControllerWillStopPanoramaCapture: (id)cameraController
-{
+- (void)cameraControllerWillStopPanoramaCapture:(id)cameraController {
     if (autoOff)
         [self _flashButton].userInteractionEnabled = YES;
 }
 
 %new
-- (void)cameraControllerDidStartPanoramaCapture: (id)cameraController
-{
+- (void)cameraControllerDidStartPanoramaCapture:(id)cameraController {
     if (autoOff)
         [self _flashButton].userInteractionEnabled = NO;
 }
@@ -125,8 +121,7 @@ static void fm_torch(BOOL on, CAMCaptureController *self){
 
 %hook CAMFlashButton
 
-- (void)setFlashMode: (NSInteger)mode
-{
+- (void)setFlashMode:(NSInteger)mode {
     %orig;
     autoOff = mode == 0;
 }
@@ -135,14 +130,12 @@ static void fm_torch(BOOL on, CAMCaptureController *self){
 
 %hook CAMTopBar
 
-- (NSMutableArray *)_allowedControlsForPanoramaMode
-{
+- (NSMutableArray *)_allowedControlsForPanoramaMode {
     return [self _allowedControlsForVideoMode];
 }
 
 %end
 
-%ctor
-{
+%ctor {
     %init;
 }
