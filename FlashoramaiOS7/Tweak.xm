@@ -1,6 +1,6 @@
 #import "../Common.h"
 
-static void fm_torch(BOOL on, PLCameraController *self){
+static void fm_torch(BOOL on, PLCameraController *self) {
     if ([self.currentDevice hasTorch]) {
         if ([self _lockCurrentDeviceForConfiguration]) {
             self.currentDevice.torchMode = on ? AVCaptureTorchModeOn : AVCaptureTorchModeOff;
@@ -11,8 +11,7 @@ static void fm_torch(BOOL on, PLCameraController *self){
 
 %hook PLCameraController
 
-- (void)stopPanoramaCapture
-{
+- (void)stopPanoramaCapture {
     if (autoOff)
         fm_torch(NO, self);
     %orig;
@@ -37,8 +36,7 @@ static void fm_torch(BOOL on, PLCameraController *self){
 
 %hook PLCameraView
 
-- (NSInteger)_glyphOrientationForCameraOrientation: (NSInteger)orientation
-{
+- (NSInteger)_glyphOrientationForCameraOrientation: (NSInteger)orientation {
     return self.cameraMode == 3 ? 1 : %orig;
 }
 
@@ -127,15 +125,13 @@ static void fm_torch(BOOL on, PLCameraController *self){
 
 %hook CAMFlashButton
 
-- (void)setFlashMode: (NSInteger)mode notifyDelegate: (BOOL)arg2
-{
+- (void)setFlashMode:(NSInteger)mode notifyDelegate:(BOOL)arg2 {
     %orig;
     autoOff = (mode == 0);
 }
 
 %end
 
-%ctor
-{
+%ctor {
     %init;
 }

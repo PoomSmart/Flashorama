@@ -1,3 +1,4 @@
+#define UNRESTRICTED_AVAILABILITY
 #import "../PS.h"
 
 static BOOL FMisOn;

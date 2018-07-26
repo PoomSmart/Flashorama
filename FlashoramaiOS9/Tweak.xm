@@ -2,8 +2,7 @@
 
 %hook CAMViewfinderViewController
 
-- (BOOL)_shouldHideFlashButtonForMode: (NSInteger)mode device: (NSInteger)device
-{
+- (BOOL)_shouldHideFlashButtonForMode:(NSInteger)mode device: (NSInteger)device {
     return %orig(mode == 3 ? 1 : mode, device);
 }
 
@@ -22,7 +21,8 @@
         self._flashButton.flashMode = 1;
         [self _flashButtonDidChangeFlashMode:self._flashButton];
         self._flashButton.userInteractionEnabled = NO;
-    }
+    } else
+        self._flashButton.allowsAutomaticFlash = NO;
 }
 
 - (void)_stopCapturingPanorama {
@@ -35,6 +35,7 @@
         [self _flashButtonDidChangeFlashMode:self._flashButton];
         autoOff = NO;
     }
+    self._flashButton.allowsAutomaticFlash = YES;
 }
 
 - (void)_updateFlashButtonForMode:(NSInteger)mode {
@@ -76,15 +77,13 @@
 
 %hook CAMTopBar
 
-- (NSMutableArray *)_allowedControlsForPanoramaMode
-{
+- (NSMutableArray *)_allowedControlsForPanoramaMode {
     return [self _allowedControlsForVideoMode];
 }
 
 %end
 
-%ctor
-{
+%ctor {
     openCamera9();
     %init;
 }

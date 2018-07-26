@@ -1,10 +1,13 @@
-Package: org.thebigboss.flashorama
+Package: com.spicat.flashorama
 Name: Flashorama
 Depends: mobilesubstrate, preferenceloader, cy+model.iphone (>= 4) | cy+model.ipod (>= 5)
-Version: 1.5
+Replaces: org.thebigboss.flashorama
+Provides: org.thebigboss.flashorama
+Conflicts: org.thebigboss.flashorama
+Version: 1.0
 Architecture: iphoneos-arm
 Description: use Torch when Capturing Panorama!
-Author: PoomSmart
-Maintainer: PoomSmart
+Author: SpicaT
+Maintainer: SpicaT
 Section: Tweaks
 Icon: file:///Library/PreferenceLoader/Preferences/Flashorama/Flasho@2x.png

@@ -1,10 +1,10 @@
-GO_EASY_ON_ME = 1
+TARGET = iphone:9.2:9.0
 
 include $(THEOS)/makefiles/common.mk
 
 LIBRARY_NAME = FlashoramaiOS9
 FlashoramaiOS9_FILES = Tweak.xm
-FlashoramaiOS9_LIBRARIES = substrate
-FlashoramaiOS9_INSTALL_PATH = /Library/Application Support/Flashorama
+FlashoramaiOS9_EXTRA_FRAMEWORKS = CydiaSubstrate
+FlashoramaiOS9_INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries/Flashorama
 
 include $(THEOS_MAKE_PATH)/library.mk
