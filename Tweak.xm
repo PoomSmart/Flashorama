@@ -1,13 +1,24 @@
-#import "../Common.h"
+#define UNRESTRICTED_AVAILABILITY
+#define tweakIdentifier @"com.ps.flashorama"
+#import "../PSPrefs/PSPrefs.x"
+#import "../PSHeader/Availability.h"
+#import "../PSHeader/CameraMacros.h"
+#import "../PSHeader/CameraApp/CameraApp.h"
+
+BOOL autoOff;
 
 %hook CAMViewfinderViewController
 
-- (BOOL)_shouldHideFlashButtonForMode:(NSInteger)mode device: (NSInteger)device {
-    return %orig(mode == 3 ? 1 : mode, device);
+- (BOOL)_isFlashOrTorchSupportedForGraphConfiguration:(CAMCaptureGraphConfiguration *)configuration {
+    return configuration.mode == 3 ? YES : %orig;
 }
 
-- (BOOL)_shouldRotateTopBarForMode:(NSInteger)mode device:(NSInteger)device {
-    return mode == 3 ? NO : %orig;
+- (BOOL)_shouldRotateTopBarForGraphConfiguration:(CAMCaptureGraphConfiguration *)configuration {
+    return configuration.mode == 3 ? NO : %orig;
+}
+
+- (BOOL)_shouldHideTopBarForGraphConfiguration:(CAMCaptureGraphConfiguration *)configuration {
+    return configuration.mode == 3 ? NO : %orig;
 }
 
 - (NSInteger)_topBarBackgroundStyleForMode:(NSInteger)mode {
@@ -48,27 +59,27 @@
 
 - (void)captureController:(id)arg1 didOutputFlashAvailability:(BOOL)arg2 {
     if (self._currentMode == 3) {
-        [self _setCurrentMode:1];
+        MSHookIvar<NSInteger>(self._currentGraphConfiguration, "_mode") = 1;
         %orig;
-        [self _setCurrentMode:3];
+        MSHookIvar<NSInteger>(self._currentGraphConfiguration, "_mode") = 3;
     } else
         %orig;
 }
 
 - (void)captureController:(id)arg1 didOutputTorchAvailability:(BOOL)arg2 {
     if (self._currentMode == 3) {
-        [self _setCurrentMode:1];
+        MSHookIvar<NSInteger>(self._currentGraphConfiguration, "_mode") = 1;
         %orig;
-        [self _setCurrentMode:3];
+        MSHookIvar<NSInteger>(self._currentGraphConfiguration, "_mode") = 3;
     } else
         %orig;
 }
 
 - (void)_flashButtonDidChangeFlashMode:(id)arg {
     if (self._currentMode == 3) {
-        [self _setCurrentMode:1];
+        MSHookIvar<NSInteger>(self._currentGraphConfiguration, "_mode") = 1;
         %orig;
-        [self _setCurrentMode:3];
+        MSHookIvar<NSInteger>(self._currentGraphConfiguration, "_mode") = 3;
     } else
         %orig;
 }
@@ -84,6 +95,11 @@
 %end
 
 %ctor {
-    openCamera9();
-    %init;
+    BOOL enabled;
+    GetPrefs();
+    GetBool2(enabled, YES);
+    if (enabled) {
+        openCamera10();
+        %init;
+    }
 }

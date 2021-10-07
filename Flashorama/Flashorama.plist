@@ -22,10 +22,10 @@
         <string>Flash-in-Panorama</string>
         <key>footerText</key>
         <string>Usages:
-There are 3 modes of torch mode set in Panorama capture:
+There are 3 modes of torch mode set in panorama capture:
 1. Off = Turn off torch
 2. On = Turn on torch
-3. Auto = Turn on torch only when you are capturing Panorama.</string>
+3. Auto = Turn on torch only when you are capturing panorama.</string>
       </dict>
       <dict>
         <key>cell</key>
@@ -33,13 +33,13 @@ There are 3 modes of torch mode set in Panorama capture:
         <key>default</key>
         <true/>
         <key>defaults</key>
-        <string>com.PS.Flashorama</string>
+        <string>com.ps.flashorama</string>
         <key>key</key>
         <string>FMEnabled</string>
         <key>label</key>
         <string>Enabled</string>
         <key>PostNotification</key>
-        <string>com.PS.Flashorama.settingschanged</string>
+        <string>com.ps.flashorama/ReloadPrefs</string>
       </dict>
       <dict>
         <key>cell</key>
@@ -47,8 +47,7 @@ There are 3 modes of torch mode set in Panorama capture:
         <key>footerAlignment</key>
         <integer>1</integer>
         <key>footerText</key>
-        <string>© 2013 - 2017 Thatchapon Unprasert
-(@PoomSmart)</string>
+        <string>© 2013 - 2021 PoomSmart</string>
       </dict>
     </array>
   </dict>

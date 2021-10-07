@@ -1,13 +1,12 @@
-Package: com.spicat.flashorama
+Package: com.ps.flashorama
 Name: Flashorama
-Depends: mobilesubstrate, preferenceloader, cy+model.iphone (>= 4) | cy+model.ipod (>= 5)
-Replaces: org.thebigboss.flashorama
-Provides: org.thebigboss.flashorama
-Conflicts: org.thebigboss.flashorama
+Depends: mobilesubstrate, preferenceloader, firmware (>= 10.0)
+Replaces: org.thebigboss.flashorama, com.spicat.flashorama
+Provides: org.thebigboss.flashorama, com.spicat.flashoram
+Conflicts: org.thebigboss.flashorama, com.spicat.flashoram
 Version: 1.0
 Architecture: iphoneos-arm
-Description: use Torch when Capturing Panorama!
-Author: SpicaT
-Maintainer: SpicaT
+Description: Toggle flashlight while taking panorama.
+Author: PoomSmart
+Maintainer: PoomSmart
 Section: Tweaks
-Icon: file:///Library/PreferenceLoader/Preferences/Flashorama/Flasho@2x.png
