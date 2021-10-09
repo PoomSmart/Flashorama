@@ -7,6 +7,21 @@
 
 BOOL autoOff;
 
+static void flashDidChange(CAMViewfinderViewController *self, NSInteger mode) {
+    if ([self respondsToSelector:@selector(_handleUserChangedToFlashMode:)])
+        [self _handleUserChangedToFlashMode:mode];
+    else
+        [self _flashButtonDidChangeFlashMode:self._flashButton];
+}
+
+%hook CAMCaptureCapabilities
+
+- (BOOL)isTorchSupportedForMode:(NSInteger)mode devicePosition:(NSInteger)devicePosition {
+    return %orig(mode == 3 ? 1 : mode, devicePosition);
+}
+
+%end
+
 %hook CAMViewfinderViewController
 
 - (BOOL)_isFlashOrTorchSupportedForGraphConfiguration:(CAMCaptureGraphConfiguration *)configuration {
@@ -30,7 +45,7 @@ BOOL autoOff;
     if (self._flashButton.flashMode == 2) {
         autoOff = YES;
         self._flashButton.flashMode = 1;
-        [self _flashButtonDidChangeFlashMode:self._flashButton];
+        flashDidChange(self, 1);
         self._flashButton.userInteractionEnabled = NO;
     } else
         self._flashButton.allowsAutomaticFlash = NO;
@@ -40,10 +55,10 @@ BOOL autoOff;
     %orig;
     if (self._flashButton.flashMode == 1 && autoOff) {
         self._flashButton.flashMode = 0;
-        [self _flashButtonDidChangeFlashMode:self._flashButton];
+        flashDidChange(self, 0);
         self._flashButton.userInteractionEnabled = YES;
         self._flashButton.flashMode = 2;
-        [self _flashButtonDidChangeFlashMode:self._flashButton];
+        flashDidChange(self, 2);
         autoOff = NO;
     }
     self._flashButton.allowsAutomaticFlash = YES;
@@ -53,7 +68,15 @@ BOOL autoOff;
     %orig(mode == 3 ? 1 : mode);
 }
 
+- (void)_updateFlashButtonForMode:(NSInteger)mode animated:(BOOL)animated {
+    %orig(mode == 3 ? 1 : mode, animated);
+}
+
 - (void)_updateTorchModeOnControllerIfNecessaryForMode:(NSInteger)mode {
+    %orig(mode == 3 ? 1 : mode);
+}
+
+- (void)_updateTorchModeOnControllerForMode:(NSInteger)mode {
     %orig(mode == 3 ? 1 : mode);
 }
 
@@ -82,6 +105,19 @@ BOOL autoOff;
         MSHookIvar<NSInteger>(self._currentGraphConfiguration, "_mode") = 3;
     } else
         %orig;
+}
+
+- (void)_handleUserChangedToFlashMode:(NSInteger)mode {
+    if (mode == 3) {
+        MSHookIvar<NSInteger>(self._currentGraphConfiguration, "_mode") = 1;
+        %orig;
+        MSHookIvar<NSInteger>(self._currentGraphConfiguration, "_mode") = 3;
+    } else
+        %orig;
+}
+
+- (NSInteger)_displayedFlashModeForMode:(NSInteger)mode flashActive:(BOOL *)flashActive {
+    return %orig(mode == 3 ? 1 : mode, flashActive);
 }
 
 %end
