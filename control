@@ -1,6 +1,6 @@
 Package: com.ps.flashorama
 Name: Flashorama
-Depends: mobilesubstrate, preferenceloader, firmware (>= 10.0)
+Depends: mobilesubstrate, firmware (>= 10.0)
 Replaces: org.thebigboss.flashorama, com.spicat.flashorama
 Provides: org.thebigboss.flashorama, com.spicat.flashoram
 Conflicts: org.thebigboss.flashorama, com.spicat.flashoram

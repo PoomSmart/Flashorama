@@ -1,6 +1,4 @@
 #define UNRESTRICTED_AVAILABILITY
-#define tweakIdentifier @"com.ps.flashorama"
-#import "../PSPrefs/PSPrefs.x"
 #import "../PSHeader/Availability.h"
 #import "../PSHeader/CameraMacros.h"
 #import "../PSHeader/CameraApp/CameraApp.h"
@@ -34,6 +32,10 @@ static void flashDidChange(CAMViewfinderViewController *self, NSInteger mode) {
 
 - (BOOL)_shouldHideTopBarForGraphConfiguration:(CAMCaptureGraphConfiguration *)configuration {
     return configuration.mode == 3 ? NO : %orig;
+}
+
+- (BOOL)_shouldShowIndicatorOfType:(NSUInteger)type forGraphConfiguration:(CAMCaptureGraphConfiguration *)configuration {
+    return type == 0 && configuration.mode == 3 && [self._captureController isCapturingVideo] && [self._captureController isCapturingPanorama] ? YES : %orig;
 }
 
 - (NSInteger)_topBarBackgroundStyleForMode:(NSInteger)mode {
@@ -129,13 +131,3 @@ static void flashDidChange(CAMViewfinderViewController *self, NSInteger mode) {
 }
 
 %end
-
-%ctor {
-    BOOL enabled;
-    GetPrefs();
-    GetBool2(enabled, YES);
-    if (enabled) {
-        openCamera10();
-        %init;
-    }
-}
