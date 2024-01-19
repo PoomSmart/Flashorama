@@ -1,6 +1,6 @@
 Flashorama
 ==========
 
-Enable Torch in Panorama mode.
+Toggle flashlight LEDs while taking panorama.
 
 MIT License.

@@ -1,7 +1,5 @@
-#define UNRESTRICTED_AVAILABILITY
-#import "../PSHeader/Availability.h"
-#import "../PSHeader/CameraMacros.h"
-#import "../PSHeader/CameraApp/CameraApp.h"
+#import <PSHeader/CameraMacros.h>
+#import <PSHeader/CameraApp/CAMViewfinderViewController.h>
 
 BOOL autoOff;
 

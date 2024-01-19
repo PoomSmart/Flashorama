@@ -2,11 +2,11 @@ Package: com.ps.flashorama
 Name: Flashorama
 Depends: mobilesubstrate, firmware (>= 10.0)
 Replaces: org.thebigboss.flashorama, com.spicat.flashorama
-Provides: org.thebigboss.flashorama, com.spicat.flashoram
-Conflicts: org.thebigboss.flashorama, com.spicat.flashoram
-Version: 1.0
+Provides: org.thebigboss.flashorama, com.spicat.flashorama
+Conflicts: org.thebigboss.flashorama, com.spicat.flashorama
+Version: 1.0.0
 Architecture: iphoneos-arm
-Description: Toggle flashlight while taking panorama.
+Description: Toggle flashlight LEDs while taking panorama.
 Author: PoomSmart
 Maintainer: PoomSmart
 Section: Tweaks
